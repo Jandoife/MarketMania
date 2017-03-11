@@ -1,10 +1,20 @@
 <html>
 <head>
 <script>
-console.log(5)
+function run(){
+  console.log(5)
+  var money=100
+  var money_dom=document.getElementById("money")
+  
+  while (money<1000){
+    ++money
+    money_dom.innerHTML=money
+  }
+}
 </script>
 </head>
-<body>
+<body onload="run()">
 MarketMania by Jandoife &amp; CatsAreFluffy
+  Money:<div id="money">100</div>
 </body>
 </html>
