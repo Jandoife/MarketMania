@@ -1,16 +1,19 @@
 <html>
 <head>
 <script>
-function run(){
-  console.log(5)
-  var money=100
-  var money_dom=document.getElementById("money")
-  
-  while (money<1000){
-    ++money
-    money_dom.innerHTML=money
+  function run(){
+    console.log(5)
+    var money=100
+    var money_dom=document.getElementById("money")
+    ticker=setInterval(tick,500)
   }
-}
+
+  function tick(){
+    money_dom.innerHTML=++money
+    if(money>=1000){
+      clearInverval(ticker)
+    }
+  }
 </script>
 </head>
 <body onload="run()">
