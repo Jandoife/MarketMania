@@ -9,7 +9,8 @@
   }
 
   function tick(){
-    money_dom.innerHTML=++money
+    money++
+    money_dom.innerHTML=money
     if(money>=1000){
       clearInverval(ticker)
     }
