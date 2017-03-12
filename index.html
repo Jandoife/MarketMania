@@ -1,24 +1,54 @@
 <html>
 <head>
 <script>
+  // LAUNCH the game
   function run(){
     console.log(5)
+    var market = new Market()
+  }
+  // MARKET class
+  // This class simulates the market over time.  It handles the time advances through tick()
+  // to update all Securities in the market.
+  function Market(){
+    window.day=1
+    window.day_dom=document.getElementById("day")
     window.money=100
     window.money_dom=document.getElementById("money")
-    ticker=setInterval(tick,500)
+    window.ticker=setInterval(this.tick,500)
   }
-
-  function tick(){
+  // Advance the market (securities and player(s)) through time until the end goal is achieved.
+  Market.prototype.tick = function(){
+    day++
+    day_dom.innerHTML=day
     money++
     money_dom.innerHTML=money
     if(money>=1000){
-      clearInverval(ticker)
+      clearInterval(ticker)
     }
+  }
+  // SECURITY class
+  // Implements various security types such as:
+  //   savings accounts (compounding periodic interest)
+  //   bonds (periodic interest, no compounding, market pricing, maturity date, premium/discount)
+  //   stocks (no interest, optional dividends without reinvestment unless in a DRIP, market pricing)
+  //   mutual funds (no interest, dividends, capital gains, fees (hidden?), compounding, market pricing)
+  //   ETFs (no interest, dividends, capital gains, fees, compounding, market pricing)
+  function Security(){
+  }
+  // ORDER class
+  // Implements orders for buying and selling securities.  Tracks orders against market movements 
+  // to complete orders if market moves satisfy order conditions.
+  function Order(){
+  }
+  // ACCOUNT class
+  // Holds cash balance and owned securities.  Updates with market movements and execution of orders.
+  function Account(){
   }
 </script>
 </head>
 <body onload="run()">
-MarketMania by Jandoife &amp; CatsAreFluffy
-  Money:<div id="money">100</div>
+MarketMania by Jandoife &amp; CatsAreFluffy<br>
+  Money: <span id="money">100</span><br>
+    Day: <span id="day">1</span><br>
 </body>
 </html>
