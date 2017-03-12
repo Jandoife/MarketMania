@@ -10,21 +10,18 @@
   // This class simulates the market over time.  It handles the time advances through tick()
   // to update all Securities in the market.
   function Market(){
-    window.day=1
+    this.day=1
     window.day_dom=document.getElementById("day")
-    window.money=100
+    this.playerAccount=new Account(100)
     window.money_dom=document.getElementById("money")
-    window.ticker=setInterval(this.tick,500)
+    this.ticker=setInterval(this.tick,500)
   }
   // Advance the market (securities and player(s)) through time until the end goal is achieved.
   Market.prototype.tick = function(){
-    day++
+    this.day++
     day_dom.innerHTML=day
-    money++
+    this.playerAccount.tick()
     money_dom.innerHTML=money
-    if(money>=1000){
-      clearInterval(ticker)
-    }
   }
   // SECURITY class
   // Implements various security types such as:
@@ -42,7 +39,15 @@
   }
   // ACCOUNT class
   // Holds cash balance and owned securities.  Updates with market movements and execution of orders.
-  function Account(){
+  // Constructor takes optional parameter for starting balance.
+  function Account(balance){
+    this.money=balance?balance:0
+  }
+  // Advance a single player's account through time.
+  Account.prototype.tick=function(){
+    if(this.money<1000){
+      this.money++
+    }
   }
 </script>
 </head>
