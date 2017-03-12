@@ -34,6 +34,63 @@
   //   mutual funds (no interest, dividends, capital gains, fees (hidden?), compounding, market pricing)
   //   ETFs (exchange traded funds) (no interest, dividends, capital gains, fees, compounding, market pricing)
   function Security(){
+    var name=""
+    var asset_class=""
+    var shares=0
+    var market_price=0
+    var par_value=0
+    var cost_basis=0
+    var interest_percent=0
+    var interest_periods=1
+    var interest_date=0
+    var dividend_percent=0
+    var dividend_periods=1
+    var dividend_date=0
+    var fees_percent=0
+    var fees_periods=1
+    var fees_date=0
+    var maturity_date=-1     // in days
+    var automatic_reinvestment=FALSE
+  }
+
+  Security.prototype.adjustPrice = function(percent){
+    market_price*=percent
+  }
+  
+  Security.prototype.payInterest = function(date){
+    var interest=0
+    if(date=interest_date){
+      interest=shares*(interest_percent/interest_periods)
+      if(automatic_reinvestment){
+        shares+=interest
+      } else {
+        return interest*market_price
+      }
+    }
+  }
+  
+  Security.prototype.payDividend = function(date){
+    var dividend=0
+    if(date=dividend_date){
+      dividend=shares*(dividend_percent/dividend_periods)
+      if(automatic_reinvestment){
+        shares+=dividend
+      } else {
+        return dividend*market_price
+      }
+    }
+  }
+  
+  Security.prototype.collectFee = function(date){
+    var fee=0
+    if(date=fee_date){
+      fee=shares*(fee_percent/fee_periods)
+      if(automatic_reinvestment){
+        shares-=fee
+      } else {
+        return -fee*market_price
+      }
+    }
   }
   // ORDER class
   // Implements orders for buying and selling securities.  Tracks orders against market movements 
