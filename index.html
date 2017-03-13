@@ -3,8 +3,7 @@
 <script>
   // LAUNCH the game
   function run(){
-    console.log(5)
-    var market = new Market()
+    window.market = new Market()
   }
   // MARKET class
   // This class simulates the market over time.  It handles the time advances through tick()
@@ -14,14 +13,14 @@
     window.day_dom=document.getElementById("day")
     this.playerAccount=new Account(100)
     window.money_dom=document.getElementById("money")
-    this.ticker=setInterval(this.tick,500)
+    this.ticker=setInterval(this.tick,500,this)
   }
   // Advance the market (securities and player(s)) through time until the end goal is achieved.
-  Market.prototype.tick = function(){
-    this.day++
-    day_dom.innerHTML=day
-    this.playerAccount.tick()
-    money_dom.innerHTML=money
+  Market.prototype.tick = function(self){
+    self.day++
+    day_dom.innerHTML=self.day
+    self.playerAccount.tick()
+    money_dom.innerHTML=self.playerAccount.money
   }
   // SECURITY class
   // Implements various security types such as:
@@ -44,7 +43,7 @@
     this.money=balance?balance:0
   }
   // Advance a single player's account through time.
-  Account.prototype.tick=function(){
+  Account.prototype.tick = function(){
     if(this.money<1000){
       this.money++
     }
