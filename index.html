@@ -34,32 +34,40 @@
   //   mutual funds (no interest, dividends, capital gains, fees (hidden?), compounding, market pricing)
   //   ETFs (exchange traded funds) (no interest, dividends, capital gains, fees, compounding, market pricing)
   function Security(){
-    var name=""
-    var asset_class=""
-    var shares=0
-    var market_price=0
-    var par_value=0
-    var cost_basis=0
-    var interest_percent=0
-    var interest_periods=1
-    var interest_date=0
-    var dividend_percent=0
-    var dividend_periods=1
-    var dividend_date=0
-    var fees_percent=0
-    var fees_periods=1
-    var fees_date=0
-    var maturity_date=-1     // in days
-    var automatic_reinvestment=FALSE
+    this.name=""
+    this.asset_class=""
+    this.shares=0
+    this.market_price=0
+    this.par_value=0
+    this.cost_basis=0
+    this.interest_percent=0
+    this.interest_periods=1
+    this.interest_date=0
+    this.dividend_percent=0
+    this.dividend_periods=1
+    this.dividend_date=0
+    this.fees_percent=0
+    this.fees_periods=1
+    this.fees_date=0
+    this.maturity_date=-1     // in days
+    this.automatic_reinvestment=FALSE
   }
 
   Security.prototype.adjustPrice = function(percent){
     market_price*=percent
   }
   
+  Security.prototype.setCostBasis = function(cb){
+    cost_basis=cb
+  }
+  
+  Security.prototype.queryCapitalGain = function(){
+    return (shares*market_price)-cost_basis
+  }
+  
   Security.prototype.payInterest = function(date){
     var interest=0
-    if(date=interest_date){
+    if(date===interest_date){
       interest=shares*(interest_percent/interest_periods)
       if(automatic_reinvestment){
         shares+=interest
@@ -71,7 +79,7 @@
   
   Security.prototype.payDividend = function(date){
     var dividend=0
-    if(date=dividend_date){
+    if(date===dividend_date){
       dividend=shares*(dividend_percent/dividend_periods)
       if(automatic_reinvestment){
         shares+=dividend
@@ -83,7 +91,7 @@
   
   Security.prototype.collectFee = function(date){
     var fee=0
-    if(date=fee_date){
+    if(date===fee_date){
       fee=shares*(fee_percent/fee_periods)
       if(automatic_reinvestment){
         shares-=fee
